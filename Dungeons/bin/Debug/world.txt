@@ -1,0 +1,173 @@
+Dungeons {
+	StartingRoom = kitchen;
+	Intro = You wake up on the kitchen floor of a strange house. \nYour head hurts and you have nothing in your pocket.;
+
+	kitchen {
+		Items {
+			table {
+				Description = a table;
+			}
+		}
+
+		North {
+			Door {
+				Target = living room;
+				Locked = true;
+			}
+
+			counter {
+				Description = the counter;
+
+				Children {
+					sink {
+						Description = a sink;
+
+						examine = kitchen.coin in sink.visible = true;
+
+						Children {
+							coin in sink {
+								Description = a coin;
+								Takeable = true;
+								Visible = false;
+
+								Alias = coin on sink, coin;
+
+								use = [
+									if %target% is machine then
+										kitchen.key.visible = true >
+										print - You notice a shiny gold key coming out of the exit slot.
+								];
+							}
+						}
+					}
+
+					machine {
+						Description = a machine with a coin slot and an exit slot;
+
+						Children {
+							key {
+								description = a shiny gold key;
+								takeable = true;
+								visible = false;
+
+								alias = shiny gold key, gold key, shiny key;
+
+								use = [
+									%target%.NorthDoor.Locked = false
+								];
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	living room {
+		Description = It is dark.;
+
+		South {
+			Door = kitchen;
+		}
+
+		West {
+			Door = bedroom;
+		}
+
+		East {
+			Door = bathroom;
+		}
+	}
+	
+	bedroom {
+		East {
+			Door = living room;
+		}
+
+		North {
+			bed {
+				Description = a bed;
+				Visible = false;
+			}
+		}
+
+		South {
+			Door = closet;
+		}
+	}
+
+	bathroom {
+		West {
+			Door = living room;
+		}
+
+		East {
+			sink {
+				Description = a sink;
+
+				Children {
+					flashlight {
+						Description = a flashlight;
+						Takeable = true;
+	
+						use = [
+							bedroom.bed.visible = true :
+							closet.clothes.visible = true
+						];
+					}
+				}
+			}
+
+			mirror {
+				Description = a mirror;
+				Detail = You see yourself. You're quite handsome;
+			}
+		}
+
+		North {
+			toilet {
+				Description = a toilet;
+			}
+		}
+	}
+
+	closet {
+		West {
+			Door {
+				Target = secret room;
+				Visible = false;
+			}
+
+			clothes {
+				Description = clothes;
+				Visible = false;
+				Takeable = true;
+
+				Commands = remove;
+
+				remove = [
+					closet.WestDoor.visible = true
+				];
+			}
+		}
+
+		South {
+			Door = bedroom;
+		}
+	}
+
+	secret room {
+		Items {
+			treasure {
+				Description = the treasure;
+				Takeable = true;
+				Visible = true;
+
+				use = [
+					print - Congratulations, you found the treasure! :
+					GameOver true
+				];
+			}
+		}
+	}
+}

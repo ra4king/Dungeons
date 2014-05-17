@@ -1,0 +1,112 @@
+Dungeons {
+	StartingRoom = the kitchen;
+
+	the kitchen {
+		North {
+			Door {
+				Target = living room;
+				Locked = true;
+			}
+
+			bed {
+				Description = a bed with a slight rip;
+				Detail = The bed occupies the entire wall and you notice there is a rip in the sheets with something poking out;
+
+				examine = the kitchen.herb.visible = true;
+
+				Children {
+					herb {
+						Visible = false;
+								
+						Description = Charlie Sheen's herb inside the rip;
+						Takeable = true;
+
+						Commands = smoke;
+
+						smoke = [
+							print - You are now high. :
+							remove
+						];
+					}
+
+					pillow {
+						Description = a pillow;
+						Takeable = true;
+
+						use = print - You hit the %target% with the pillow.;
+					}
+
+					bottle {
+						Description = a bottle of water;
+						Takeable = true;
+
+						Alias = bottle of water;
+					}
+				}
+			}
+
+			chair {
+				Description = a chair;
+			}
+
+			pool table {
+				Description = a pool table;
+
+				Children {
+					pool ball {
+						Description = a pool ball;
+						Takeable = true;
+					}
+				}
+			}
+		}
+
+		Items {
+			table {
+				Description = a table;
+				Detail = An empty wooden table.;
+				Takeable = true;
+
+				Children {
+					key {
+						Description = a key;
+						Takeable = true;
+
+						use = [
+							%target%.Door.locked = false :
+							remove
+						];
+					}
+
+					your mom {
+						Description = your annoying mom;
+						Takeable = true;
+
+						Alias = mom;
+						
+						UseIfNotEquipped = true;
+
+						use = [
+							var a = 0 :
+
+							print - Enjoy the sex! :
+							a++ :
+
+							if a == 3 then
+								print - She is tired. >
+								remove
+						];
+					}
+				}
+			}
+		}
+	}
+
+	living room {
+		Walls {
+			South {
+				Door = the kitchen;
+			}
+		}
+	}
+}
